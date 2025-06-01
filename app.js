@@ -89,17 +89,17 @@ function createGalleryItems(data) {
   });
 };
 
-galleryContainer.addEventListener('click', onGalleryContainerClick);
+// galleryContainer.addEventListener('click', onGalleryContainerClick);
 
-function onGalleryContainerClick(event) {
-  const imageActiveBackdrop = document.querySelector('.lightbox.is-open');
+// function onGalleryContainerClick(event) {
+//   const imageActiveBackdrop = document.querySelector('.lightbox.is-open');
 
-  // const imageBackdrop = event.target.closest('.lightbox');
+//   // const imageBackdrop = event.target.closest('.lightbox');
 
-  if (imageActiveBackdrop) {
-    imageActiveBackdrop.classList.remove('is-open');
-  };
-  imageActiveBackdrop.classList.add('is-open');
+//   if (imageActiveBackdrop) {
+//     imageActiveBackdrop.classList.remove('is-open');
+//   };
+//   imageActiveBackdrop.classList.add('is-open');
 
 
-};
+// };
