@@ -65,41 +65,58 @@ const galleryItems = [
 ];
 
 const galleryContainer = document.querySelector(".js-gallery");
+const overlay = document.querySelector(".lightbox__overlay");
 
 const galleryImages = createGalleryItems(galleryItems);
-console.log(galleryImages);
 
 galleryContainer.insertAdjacentHTML("beforeend", galleryImages);
 
 function createGalleryItems(data) {
-  return data.map(({ preview, original }) => {
-    return `<li class="gallery__item">
-  <a
-    class="gallery__link"
-    href="${preview}"
-  >
-    <img
-      class="gallery__image"
-      src="${original}"
-      data-source="${original}"
-      alt="Tulips"
-    />
-  </a>
-</li>`;
+  for (let img of galleryItems) {
+    const liEl = document.createElement("li");
+    const imgEl = document.createElement("img");
+    const linkEl = document.createElement("a");
+
+    liEl.classList.add("gallery__item");
+    linkEl.href = img.preview;
+    linkEl.classList.add("gallery__link");
+    imgEl.src = img.original;
+    imgEl.alt = img.description;
+    imgEl.setAttribute("data-source", img.original);
+    imgEl.classList.add("gallery__image");
+
+    galleryContainer.appendChild(liEl);
+    liEl.appendChild(linkEl);
+    linkEl.appendChild(imgEl);
+  }
+
+  galleryContainer.addEventListener("click", onImageClick);
+}
+
+function onImageClick(event) {
+  event.preventDefault();
+
+  if (event.target.nodeName !== "IMG") return;
+
+  const galleryLightbox = document.querySelector(".lightbox");
+  const lightboxImage = document.querySelector(".lightbox__image");
+  const closeBtn = document.querySelector('.lightbox__button');
+
+  galleryLightbox.classList.add("is-open");
+  lightboxImage.src = event.target.dataset.source;
+  lightboxImage.alt = event.target.alt;
+
+  galleryLightbox.addEventListener("click", () => {
+    galleryLightbox.classList.remove("is-open");
   });
-};
 
-// galleryContainer.addEventListener('click', onGalleryContainerClick);
+  closeBtn.addEventListener('clicl', () => {
+    galleryLightbox.classList.remove("is-open");
+  });
 
-// function onGalleryContainerClick(event) {
-//   const imageActiveBackdrop = document.querySelector('.lightbox.is-open');
-
-//   // const imageBackdrop = event.target.closest('.lightbox');
-
-//   if (imageActiveBackdrop) {
-//     imageActiveBackdrop.classList.remove('is-open');
-//   };
-//   imageActiveBackdrop.classList.add('is-open');
-
-
-// };
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      galleryLightbox.classList.remove("is-open");
+  }
+})
+}
